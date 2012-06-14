@@ -35,11 +35,10 @@ logfile = io.open(log_dir+'/gnarp.log','w')
 first_lines = {}
 first_lines['html'] = [u'Input: common\n',u'\n',u'Input: html\n',u'\n']
 
-id = 0
-
 def getid():
-    id += 1
-    return id
+    getid.id += 1
+    return getid.id
+getid.id = 0
 
 def log(frame, level, message):
     caller = unicode(frame.f_back.f_globals['__name__'])
