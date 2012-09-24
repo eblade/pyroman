@@ -1,0 +1,54 @@
+Use: List
+
+Template: List
+output: html
+place: body
+<div class="glistholder">
+    <div class="glistcaption glist%style%">%caption%</div>
+    %$Items using ListItem%
+</div>
+
+Template: ListItem
+output: html
+place: body
+    <div class="glistitem glistitem%level% glistitem%style%">
+        <div class="glistbullet glistbullet%bullet%">%bullet%</div>
+        <div class="glistitemcaption">%caption%</div>
+    </div>
+
+Template: List
+output: html
+place: style
+div.glistholder {
+    margin-top:         10px;
+    margin-left:        1cm;
+}
+div.glistcaption {
+    font-family:        helvetica, arial;
+    font-style:         italic;
+    font-size:          10pt;
+    color:              #666;
+}
+div.glistbullet {
+    height: 1em;
+}
+div.glistitemcaption {
+    margin-top: -1em;
+    margin-left: 15px;
+}
+div.glistitem {
+    font-size:          11pt;
+    font-family:        "times new roman", serif
+}
+div.glistitem1 {
+    margin-left:        10px;
+}
+div.glistitem2 {
+    margin-left:        20px;
+}
+div.glistitem3 {
+    margin-left:        30px;
+}
+div.glistitem4 {
+    margin-left:        40px;
+}

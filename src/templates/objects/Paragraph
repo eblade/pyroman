@@ -1,0 +1,19 @@
+Use: Paragraph
+
+Template: Paragraph
+output: html
+place: body
+<p class="gparagraph">%content%</p>
+
+Template: Paragraph
+output: html
+place: style
+p.gparagraph {
+    font-family:    "times new roman", serif;
+    color:          black;
+    font-size:      11pt;
+    text-align:     justify;
+    margin-top:     10px;
+    margin-bottom:  10px;
+    margin-left:    1cm;
+}

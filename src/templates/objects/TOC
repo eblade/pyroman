@@ -1,0 +1,62 @@
+Use: TOC
+
+Use: Heading
+
+Template: TOC
+output: html
+place: body
+<div class="gtocheading">%caption%</div>
+<div class="gtocholder">
+    %$%tocname% using TOCItem%
+</div>
+
+Template: TOCItem
+output: html
+place: body
+    <a class="gtocitem" href="#%safe_title%">
+        <div class="gtocitem">
+            <p class="gtocitem gtocitem%level%">
+                %numbering% %title%
+            </p>
+        </div>
+    </a>
+
+Template: TOCItem
+output: html
+place: style
+div.gtocholder {
+    margin-left:    1cm;
+}
+div.gtocheading {
+    font-family:    helvetica, arial;
+    font-size:      20pt;
+    font-weight:    bold;
+    margin-top:     2cm;
+    color:          #C96300;
+    border-top:     3px solid #C96300;
+    border-bottom:  3px solid #C96300;
+}
+a.gtocitem {
+    text-decoration: none;
+    color: black;
+}
+a.gtocitem:visited { color: black; }
+a.gtocitem:hover { color: #820; }
+a.gtocitem:visited { color: black; }
+div.gtocitem {
+    font-family:    helvetica, arial;
+    font-size:      10pt;
+    margin-top:     2px;
+    margin-bottom:  2px;
+}
+p.tocitem {
+    margin-top:     2px;
+    margin-bottom:  2px;
+}
+p.gtocitem1 { margin-left: 0cm; font-weight: bold; font-size: 12pt; }
+p.gtocitem2 { margin-left: 0.5cm; font-size: 11pt; }
+p.gtocitem3 { margin-left: 1cm; font-style: italic; font-size: 11pt; }
+p.gtocitem4 { margin-left: 1.2cm; font-size: 10pt;}
+p.gtocitem5 { margin-left: 1.4cm; font-size: 9pt; }
+p.gtocitem6 { margin-left: 1.6cm; font-size: 8pt; }
+p.gtocitem7 { margin-left: 1.8cm; font-size: 8pt;}

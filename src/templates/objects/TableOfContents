@@ -1,0 +1,14 @@
+Use: TableOfContents
+
+Set: toc_level
+value: 2
+
+Template: TableOfContents
+output: html
+place: body
+<h1 class="gheading">%heading%<\h2>
+%tocrows%
+
+Template: TableOfContents
+output: html
+place: style

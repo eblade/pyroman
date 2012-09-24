@@ -1,0 +1,86 @@
+Use: Heading
+
+Template: Heading
+output: html
+place: body
+<div class="gheadingholder gheading%level% gheading">
+    <div class="gheadingnumber gheadingnumber%level%">
+        <a class="gheading" name="%safe_title%">
+            <div class="gheading">%numbering%</div>
+        </a>
+    </div>
+    <div class="gheadingtitle">%title%</div>
+</div>
+
+Template: Heading
+output: html
+place: style
+.gheading {
+    font-family:    helvetica, arial;
+}
+a.gheading {
+}
+div.gheadingnumber {
+    height: 1em;
+    position: relative;
+    top: 3px;
+    left: -2cm;
+    width: 2.9cm;
+    text-align: right;
+    color:          #888;
+    border-top: 3px solid #fff;
+    border-bottom: 3px solid #fff;
+}
+div.gheadingnumber1 {
+    top: 8px;
+    width: 2.8cm;
+    background-color: #C96300;
+    color:          #fff;
+    border-bottom: 8px solid #C96300;
+    font-size: 32pt;
+}
+.gheadingtitle {
+    color:          #C96300;
+    margin-top: -1em;
+    margin-left: 1cm;
+}
+.gheading1 {
+    font-size:      20pt;
+    font-weight:    bold;
+    margin-top:     2cm;
+}
+.gheading2 {
+    font-size:      15pt;
+    font-weight:    bold;
+    margin-top:     1.5cm;
+}
+.gheading3 {
+    font-size:      14pt;
+    font-weight:    normal;
+    margin-top:     1.3cm;
+}
+.gheading4 {
+    font-size:      13pt;
+    font-weight:    normal;
+    margin-left:    .5cm;
+    margin-top:     1cm;
+}
+.gheading5 {
+    font-size:      13pt;
+    font-weight:    normal;
+    margin-left:    1cm;
+    margin-top:     1cm;
+}
+.gheading6 {
+    font-size:      12pt;
+    margin-left:    1cm;
+    font-weight:    normal;
+    margin-top:     1cm;
+}
+.gheading7 {
+    font-size:      11pt;
+    margin-left:    1cm;
+    font-weight:    normal;
+    margin-top:     1cm;
+}
+

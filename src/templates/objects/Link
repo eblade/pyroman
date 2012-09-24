@@ -1,0 +1,22 @@
+
+Use: Link
+
+Template: Link
+output: html
+place: body
+<p class="glink"><a class="glink" href="%url%">%title%</a></p>
+
+Template: Link
+output: html
+place: style
+a.glink {
+    font-family:    times new roman, serif;
+    color:          #06a;
+    font-size:      11pt;
+    text-align:     left;
+    text-decoration:none;
+}
+p.glink {
+    margin-left:    1cm;
+    color:          #999;
+}

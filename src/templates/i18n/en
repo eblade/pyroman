@@ -1,0 +1,9 @@
+Set:
+language: en
+locale: en_US
+
+Translate: table_of_contents
+to: Table of Contents
+
+Translate: table_of_figures
+to: Table of Figures

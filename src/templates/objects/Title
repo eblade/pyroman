@@ -1,0 +1,42 @@
+Use: Title
+
+Template: Title
+output: html
+place: body
+<div class="gtitle">%title%</div>
+<div class="gtitlesubtitle">%subtitle%</div>
+<div class="gtitleauthor">%author%</div>
+<div class="gtitledate">%today%</div>
+
+Template: Title
+output: html
+place: style
+div.gtitle {
+    font-family:    helvetica, arial;
+    font-size:      30pt;
+    align:          center;
+    margin-top:     20px;
+    margin-bottom:  15px;
+    font-weight:    bold;
+}
+div.gtitlesubtitle {
+    font-family:    helvetica, arial;
+    font-size:      15pt;
+    align:          center;
+    margin-top:     0px;
+    margin-bottom:  10px;
+}
+div.gtitleauthor {
+    font-family:    helvetica, arial;
+    font-size:      12pt;
+    align:          center;
+    margin-top:     0px;
+    margin-bottom:  10px;
+}
+div.gtitledate {
+    font-family:    helvetica, arial;
+    font-size:      12pt;
+    align:          center;
+    margin-top:     0px;
+    margin-bottom:  10px;
+}

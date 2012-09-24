@@ -1,0 +1,36 @@
+Use: Comment
+
+Template: Comment
+output: html
+place: body
+<div class="gcommentholder gcommentholder%type%">
+    <div class="gcomment gcomment%type%">
+        %content%
+    </div>
+</div>
+
+Template: Comment
+output: html
+place: style
+.gcommentholder {
+    position:           absolute;
+    margin-left:        17.5cm;
+    width:              5cm;
+    font-family:        helvetica, arial;
+    background-color:   #ffc;
+    color:              #222;
+    font-style:         italic;
+    font-size:          10pt;
+    border:             4px solid #aaa;
+}
+.gcomment {
+    margin:             .3cm;
+    width:              4.4cm;
+}
+.gcommentholdercrit {
+    background-color:   #ff3;
+    color:              #222;
+    font-style:         italic;
+    font-size:          10pt;
+    border:             4px solid #f20;
+}

@@ -1,0 +1,26 @@
+Input: objects/NormalizeCss
+
+Input: objects/Title
+
+Input: objects/List
+
+Input: objects/Heading
+
+Input: objects/Paragraph
+
+Input: objects/Code
+
+Input: objects/TOC
+
+Input: objects/Link
+
+Input: objects/Figure
+
+Input: objects/Comment
+
+Input: objects/Translate
+
+Input: i18n/en
+
+Set: no-overwrite 
+author: Johan Egneblad

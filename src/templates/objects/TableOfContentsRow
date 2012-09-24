@@ -1,0 +1,12 @@
+Object: TableOfContentsRow
+
+Arguments:
+text
+level
+
+Print:
+times: level
+.
+
+Print: html
+%text%

@@ -1,0 +1,57 @@
+Use: HtmlWrapper
+
+Template: HtmlWrapper
+output: html
+place: wrapper
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+    <head>
+        <title>%title%</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <style type="text/css">
+            %style%
+        </style>
+        <script>
+            %script%
+        </script>
+    </head>
+    <body class="gbody">
+        <div class="gsheettop"></div>
+        <div class="gsheet">
+            <div class="gcontentarea">
+                %body%
+            </div>
+        </div>
+    </body>
+</html>
+
+Template: HtmlWrapper
+output: html
+place: style
+body.gbody {
+    background-color:   gray;
+    font-family:        times new roman, serif;
+    color:              black;
+}
+div.gsheettop {
+    background-color:   #f08218;
+    width:              21cm;
+    height:             1cm;
+    margin:             0 auto; 
+    margin-top:         10px;
+    margin-bottom:      0px;
+}
+div.gsheet {
+    background-color:   white;
+    width:              21cm;
+    margin:             0 auto; 
+    margin-top:         0px;
+    margin-bottom:      10px;
+    padding-top:        2cm;
+    padding-bottom:     2cm;
+}
+div.gcontentarea {
+    margin-left:        2cm;
+    margin-right:       2cm;
+}

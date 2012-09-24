@@ -1,0 +1,518 @@
+PyRoman Language Reference
+author: Johan Egneblad
+
+TOC:
+
+= Introduction =
+
+= Syntax =
+
+The PyRoman syntax is rather lightly defined in its very basics. The idea is to
+extense it modularily with the help of syntax sugar when appropriate. Since the
+structure of a document here is considered to be a flow of elements, a PyRoman
+document is easiest represented as a flow of objects, each representing either
+a visible object or some helper entitity such as setup or translation. An
+object is represented by the following syntax:
+
+Code: 
+caption: The general object
+-
+Object: primary value
+argument1: value1
+argument2: value2
+...
+argumentN: valueN
+multiline content
+goes here
+this can be anything
+[empty line]
+
+This is about it for syntax. A document consists of a sequence of objects like
+this. There however two little tweaks for comfort and ful functionality:
+
+List:
+* If the document starts with some words on a line, it is assumed to be a Title
+  objects. The second line, if not a properly formatted argument, is assumed to
+  be a subtitle.
+* If any content should start with a word plus colon, arguments and content
+  must be separated by a single dash on a line.
+* Contents which naturally contains empty line must have spaces on them not to
+  terminate the object.
+
+Code: text
+caption: Example document which demonstrates the tweaks.
+This is the document title
+This is the document subtitle
+author: The Author
+ 
+Code:
+caption: My best urls in a Code object
+-
+http://xkcd.org
+http://itshambles.com
+
+= Default Behaviour =
+
+= I18n =
+
+= Object Reference =
+
+These are the standard objects in PyRoman. Syntax parts in [brackets] are
+optional, the brackets are not part of the code.
+
+== Break ==
+
+A simple page break. Use this if you want to control object flow for printing.
+
+Code: text
+caption: Syntax for Break
+-
+Break:
+
+== Code ==
+
+The Code object provides syntax-higlighted code with a caption.
+
+Code: text
+caption: Syntax for Code
+-
+Code: [language]
+[caption: Your caption goes here]
+[linenumbers: yes/no]
+Your code goes here.
+
+Remember to replace empty lines with ones that has a space or a tab on them at
+least, otherwise the object will en prematurely.
+
+== Comment ==
+
+Comment:
+This is a comment.
+
+A Comment object is like in other languages intended mainly for the author,
+however, they can be used to highlight things in a draft. The <b>state</b> of
+the document controls whether they are t be shown in the rendering or not.
+
+To control the state, use:
+
+Code:
+-
+Set:
+state: draft/final
+
+where <b>draft</b> has the comments visible, and <b>final</b> does not.
+
+Code: text
+caption: Syntax for Comment
+-
+Comment:
+[type: crit]
+Comment text goes here and can
+span several line, for it is content.
+
+The type here only controls what template to be used, there is now normal
+(leave empty) and crit, which prints a more warning-like comment box.
+
+== Dot ==
+
+This is not yet implemented but will feature support to write DOT code
+which will be rendered and represented graphically in the document.
+
+This object will transform into a Figure object.
+
+== Figure ==
+
+The Figure object displays a picture with a caption and labeling with
+numbering for cross-referencing purposes.
+
+There is still much left to do regarding formatting, it now only supports
+full-width figures.
+
+Code: text
+caption: Syntax for Figure
+-
+Figure:
+file: myfile.png
+
+Comment:
+The urlencodings should be stored in css so they can be used several times
+throughout a document. For example, bullet points and such will benefit from
+this.
+
+The picture data is read and encoded with base64. For HTML output that data is
+later wrapped as urlencoding by the template.
+
+Figures use the counter <i>figure</i> and the table <i>TOF</i>.
+
+== Generic ==
+
+The generic object is not really a fully qualified object. All objects are 
+generic when they are first parsed. The second round they get transformed to
+the objects they were intended to be.
+
+Code: text
+caption: Generic arguments:
+-
+substitute: yes/no (defaults to yes)
+            controls whether the processor should substitute beyond the initial
+            template substitution.
+
+
+== Heading ==
+
+Headings are rather self-explanatory in their use but not necessarily in their
+use. Firstly, there are seven levels of headings and subheadings, representing
+their underlying section hierarchy. Numbering is of course done automatically
+and hierarchically.
+
+Code: text
+caption: Syntax for Heading
+-
+Heading: The Actual Heading
+[level: 1-7 (default 2)]
+
+If you think this is to extensive and cumbersome for something as frequently
+used as headings, fear not, since Headings make use of the build in regex-based
+syntax sugar engine. Below is a complete list of ways you can express a heading:
+
+Code: text
+caption: Heading Syntax Sugar
+= First Level Heading =
+== Second Level Heading ==
+=== Third Level Heading ===
+==== Fourth Level Heading ====
+===== Fifth Level Heading =====
+======= Sixth Level Heading ======
+======== Seventh Level Heading ========
+or
+h1. First Level Heading
+h2. Second Level Heading
+h3. Third Level Heading
+h4. Fourth Level Heading
+h5. Fifth Level Heading
+h6. Sixth Level Heading
+h7. Seventh Level Heading
+
+There are ideas to add NoML-style headings as well.
+
+Headings use the counters <i>toc1</i>-<i>toc7</i> and the table <i>TOC</i>.
+
+== HtmlWrapper ==
+
+The HtmlWrapper wraps the document in html using HTML for publishing using
+the templates for each object. The templates used have their <i>output</i>
+argument set to <b>html</b>. The object also provides the canvas HTML for the
+report. Wrappers are via their code recognized as wrappers and do not need much
+attention at all.
+
+Code:
+caption: Syntax for HtmlWrapper
+-
+HtmlWrapper:
+
+== Inline ==
+
+<i>Not yet supported.</i>
+
+The idea is that this object shall provide a set of syntax sugars intended for
+inline use, that also have the ability to create objects to use with this.
+
+== Input ==
+
+This object does basically the same as the LaTeX command with the same name, it
+directly includes the contents of another file. The difference is that in
+PyRoman, it is used as the main tool for using libraries, as the template files
+are included with this. You shouldn't have to worry about using it that way
+unless you build your own objects.
+
+However it can easily be used for fractioning your document into smaller parts.
+
+Code: text
+caption: Syntax for Input
+-
+Input: path/to/file
+
+Worth noting is that the path is relative to one of the following paths (in
+prioritized order):
+
+List:
+* working directory
+* 'conf' folder in working directory
+* the global template directory, usually .pyroman/templates
+
+If none of these are found, PyRoman will cast an error, but as usual, this is
+not the end of the world. PyRoman tells you about errors, but will stop at
+(almost) nothing.
+
+== Link ==
+
+The link object has limited use before inlining is satisfactorily implemented
+but can still be used to produce an HTML link with a caption. I will be 
+represented as its own paragraph.
+
+Code: text
+caption: Syntax for Link
+-
+Link: url
+[title: Clear-text title] (defaults to url)
+
+The idea is to develop this to handle inline objects and cross-references. That
+should be a piece of cake, but now I'm writing this manual instead...
+
+== List ==
+
+PyRoman supports lists in a nested fashion, but so far, the formatting options
+are rather limited. Two bullet types exist:
+
+List:
+* Dash (-)
+* Dots (...)
+
+You can choose them with the <i>style</i> argument, which is then '-' or '...'.
+If you pick anything else it will still be a dash.
+
+Code: text
+caption: Syntax for List
+-
+List: [style]
+[caption: The Example List]
+* First level bullet
+** Second level bullet
+   text can wrap around
+* Back to first level
+* It
+** Supports
+*** Four
+**** Levels
+
+List:
+caption: The Example List
+* First level bullet
+** Second level bullet
+   text can wrapp around
+* Back to first level
+* It
+** Supports
+*** Four
+**** Levels
+
+It don't know why I chose four, but I guess I didn't want to make more
+templates than that.
+
+== NormailzeCss ==
+
+The NormailzeCss object uses a copy of the normalize.css available at:
+
+Link: http://link/to/normalize.css
+
+It adds its contents to the style of the document to make it more
+cross-platform.
+
+Code:
+caption: Syntax for NormalizeCss
+-
+NormalizeCss:
+
+== Paragraph ==
+
+A paragraph is the most basic element in a document. Therefore, this is considered to be the default object. If there is no object notation, the processor will
+assume it is a paragraph, very much like the TeX processor does.
+
+However, if you would like to do anything special like setting an argument for
+the Paragraph object, you will have to use the standard notation. At the moment
+there are no such arguments but then again if you add them yourself, here is
+the syntax:
+
+Code: text
+caption: Syntax for Paragraph
+-
+Paragraph:
+Here comes the text.
+ 
+ or simply:
+ 
+Here comes the text.
+
+== Publish ==
+
+If you want the processor to automatically push the result up to a server, you
+can use the Publish object. It currently supports scp but can be extended with
+more protocols.
+
+Code: text
+caption: Syntax for Publish
+-
+Publish: [protocol] (default is scp)
+uri: username@server:/path/to/target/file
+
+I have not tested this without keys, but its not really good without them
+anyway,
+
+== Set ==
+
+The Set object is simple way to set global variables, which are as their name
+suggests variables accessible from everywhere. In templates you can use the
+
+Code: text
+substitute: no
+-
+%variable% 
+
+syntax to get a value. They are of course recursive, so you can have the
+variable notation inside of a variable value and it will in turn be replaced.
+
+The Set object can handle multiple variable settings, and it works like this:
+
+Code: text
+caption: Syntax for Set
+-
+Set: [no-overwrite] (or leave empty)
+variable1: value1
+variable2: value2
+...
+variableN: valueN
+
+The no-overwrite option only assigns the variable if it isn't already set.
+
+== Template ==
+
+Templates are the heart of the visual representation of the object flow. For
+HTML, which is the first and only output mode, they represent HTML code, CSS
+styles and JavaScript code. Templates are populated and used in the flow order,
+except for Wrapper templates which are used last (and there can only be one).
+
+Code: text
+caption: Syntax for Template
+-
+Template: [Template Name]
+output: html (currently, but pdf or latex would be cool)
+place: body|style|script|...
+Here comes the template
+which can span
+multiple lines.
+
+So, for the HTML output you typically specify two templates, one for the body
+and one for styles. Those are separated so the styles only get injected ones
+by the wrapper.
+
+Templates use a domain-specific language, which is at the moment rather crude.
+
+Code: text
+caption: Syntax inside Templates
+substitute: no
+-
+Variable:      %variable%
+List:          %$list using Template%
+Counter:       !!counter!!
+Translation:   __translation__
+Inline object: %Object[primary;argument1:value1;argument2:value2]:contents%
+
+Each of those deserve a fair bit of explanation:
+
+=== Variable ===
+
+A variable is just a piece of text with a name used for dynamic content.
+Variable are stored in hash tree, which of there are several. Firstly, there is
+a global one called globalvars, then there is a local one called localvars, and
+last there is another local one called arguments, which holds the arguments
+specified to the object. They are searched in the reverse order from the one
+given here as soon as encountering a variable in the above format. The process
+is done in a recursive manner, so if a variable is substituted in a string, it
+will be processed again and again until no substitution is done. This of course
+means that you can make endless loops. Don't.
+
+=== List ===
+
+Lists are like variables but with two exceptions:
+
+List:
+* They always start with a dollar ($) sign
+* They contain a list of hash tables
+
+So, what's a list of hash tables? Well, really it's a suitable combination of
+python structures. Lists are intended for templates of elements that repeats
+themselves a non-fixed number of times. What you do is to specify two templates,
+one for the main element and one for a model of a sub-element. Then you can
+use the above <i>$list using SubElementTemplate</i> structure for the elements.
+You will have to use a python Plugin to create the actual repetative object.
+
+=== Counter ===
+
+The counter notation is basically a shortcut to variables in the $Counters
+system variable list in globalvars. You might as well write:
+
+Code: text
+substitute: no
+%$Counters.counter%
+
+instead of
+
+Code:
+substitute: no
+!!counter!!
+
+And yes, you use dot (.) as a path separator in variable names. It's really a
+hash tree, remember.
+
+=== Translation ===
+
+Translations are also shortcuts, shortcuts to:
+
+Code: text
+substitute: no
+%$i18n.[language].token%
+
+The [language] here is really the global variable language which can be set
+using Set. You can then easily use the Translate object to create dictionaries
+for internationalization.
+
+=== Inline Object ===
+
+Inline objects is still not implemented, but the intended use is for inline
+formatting and insertion of graphical objects like pictures and equations in
+text. The syntax suggested here is rather complicated but never really
+intended for use. Instead, it is recommended to define Syntax Sugars for
+specific objects that supports inlining.
+
+== Title ==
+
+The title object is pretty much an imitation of the LaTeX command \title. It
+prints a title object with title, subtitle, author and date, variables which can
+all be manually set using Set:
+
+Code: text
+caption: Changing th title variables
+-
+Set:
+title: The Title
+subtitle: The Subtitle
+author: The Author
+date: the/current/date
+ 
+or
+ 
+Title: The Title
+[subtitle: The Subtitle]
+[author: The Author]
+[date: the/current/date]
+ 
+or as the first lines of the page
+ 
+The Title
+[The Subtitle]
+[author: The Author]
+[date: the/current/date]
+
+Date will default to today's date. It's a nice idea to let some startup file
+in .pyroman/templates set the author automatically. You can put this in the
+common file for example.
+
+== TOC ==
+
+The TOC object inserts a Table of Contents, or actually a table of anything
+correctly shaped. It supports linking and leveling, and at the moment Headings
+and Figures are supported.
+
+== Translate ==
+
+== Use ==
