@@ -73,7 +73,7 @@ def getkey(_dict, _key, _default=''):
     else:
         if parts[0] in _dict:
             # FIXME maybe optimise this by not converting to and from arrays 
-            return getkey(_dict[parts[0]], parts[1:].join('.'), _default)
+            return getkey(_dict[parts[0]], '.'.join(parts[1:]), _default)
     G.debug(''.join(['Key "',_key,'" not found in hash.']))
     return _default
 

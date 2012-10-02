@@ -38,6 +38,7 @@ class Generic:
         self.removed = False 
         self.body = u''
         self.style = u''
+        self.prescript = u''
         self.script = u''
 
         if (_source):
@@ -223,6 +224,7 @@ class Generic:
         l_content = u'\n'.join([u' - CONTENT - ', self.content])
         l_body = u'\n'.join([u' - BODY - ', self.body])
         l_style = u'\n'.join([u' - STYLE - ', self.style])
+        l_prescript = u'\n'.join([u' - SCRIPT - ', self.prescript])
         l_script = u'\n'.join([u' - SCRIPT - ', self.script])
         return u'\n'.join([l_object_name,
                           l_removed,

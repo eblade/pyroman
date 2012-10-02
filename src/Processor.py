@@ -256,18 +256,25 @@ class Processor:
         G.info('Starting wrapping.')
         self.globalvars['body'] = ''
         self.globalvars['style'] = ''
+        self.globalvars['prescript'] = ''
         self.globalvars['script'] = ''
         for obj in self.objects:
             if not obj.removed:
-                if not obj.body == '': self.globalvars['body'] = u'\n'.join([self.globalvars['body'], obj.body])
-                if not obj.style == '': self.globalvars['style'] = u'\n'.join([self.globalvars['style'], obj.style])
-                if not obj.script == '': self.globalvars['script'] = u'\n'.join([self.globalvars['script'], obj.script])
+                if len(obj.body): 
+                    self.globalvars['body'] = u'\n'.join([self.globalvars['body'], obj.body])
+                if len(obj.style): 
+                    self.globalvars['style'] = u'\n'.join([self.globalvars['style'], obj.style])
+                if len(obj.prescript): 
+                    self.globalvars['prescript'] = u'\n'.join([self.globalvars['script'], obj.script])
+                if len(obj.script): 
+                    self.globalvars['script'] = u'\n'.join([self.globalvars['script'], obj.script])
         templates = getkey(self.globalvars, '$Templates', {})
         for tname in templates:
             G.debug('Adding template to style/script for '+tname)
             template = getkey(templates, tname, {})
             self.globalvars['style'] = '\n'.join([self.globalvars['style'], getkey(template, 'style')])
-            self.globalvars['script'] = '\n'.join([self.globalvars['script'], getkey(template, 'script')])
+            self.globalvars['prescript'] = '\n'.join([self.globalvars['prescript'], getkey(template, 'prescript')])
+            #self.globalvars['script'] = '\n'.join([self.globalvars['script'], getkey(template, 'script')])
 
         wrapper = getkey(self.globalvars, '$Wrapper', False)
         if wrapper:
