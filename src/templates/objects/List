@@ -11,8 +11,8 @@ place: body
 Template: ListItem
 output: html
 place: body
-    <div class="glistitem glistitem%level% glistitem%style%">
-        <div class="glistbullet glistbullet%bullet%">%bullet%</div>
+    <div class="glistitem glistitem%level% glistitem%level%%format%">
+        <div class="glistbullet">%bullet%level%%</div>
         <div class="glistitemcaption">%caption%</div>
     </div>
 
@@ -38,17 +38,25 @@ div.glistitemcaption {
 }
 div.glistitem {
     font-size:          11pt;
-    font-family:        "times new roman", serif
+    font-family:        "times new roman", serif;
+    margin-top:         .4cm;
 }
 div.glistitem1 {
-    margin-left:        10px;
+    margin-left:        .5cm;
 }
 div.glistitem2 {
-    margin-left:        20px;
+    margin-left:        1cm;
 }
 div.glistitem3 {
-    margin-left:        30px;
+    margin-left:        1.5cm;
 }
 div.glistitem4 {
-    margin-left:        40px;
+    margin-left:        2cm;
+}
+div.glistitem1snippet {
+    margin-left:        0cm;
+    margin-top:         0.5cm;
+    font-family:        monospace, courier new, courier;
+    background-color:   #f8f8f8;
+    word-wrap:          break-word;
 }

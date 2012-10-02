@@ -1,3 +1,19 @@
 Input: objects/HtmlWrapper
 
+Input: objects/NormalizeCss
+
+Input: objects/JQuery
+
+Translate: bullet1
+to: &#x2022;
+
+Translate: bullet2
+to: &#x25e6;
+
+Translate: bullet3
+to: -
+
+Translate: bullet4
+to: ...
+
 HtmlWrapper:

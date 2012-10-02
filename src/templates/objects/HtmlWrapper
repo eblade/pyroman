@@ -13,7 +13,12 @@ place: wrapper
             %style%
         </style>
         <script>
-            %script%
+            %prescript%
+        </script>
+        <script>
+            $(document).ready(function(){
+                %script%
+            });
         </script>
     </head>
     <body class="gbody">

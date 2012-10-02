@@ -3,11 +3,13 @@ Use: Code
 Template: Code
 output: html
 place: body
-<div class="gcodeholder">
+<div id="%id%" class="gcodeholder">
     <div class="gcodecaptionholder">
         <div class="gcodecaption">
-            %caption%
+            %caption%&nbsp;
         </div>
+        <span class="gcodebutton" id="%id%_widebutton">[wider]</span>
+        <span class="gcodebutton gcodeinvisible" id="%id%_narrowbutton">[restore]</span>
     </div>
     <div class="gcodecontentholder">
         %code%
@@ -16,10 +18,34 @@ place: body
 
 Template: Code
 output: html
+place: script
+$("#%id%_widebutton").click(function(event) {
+    $("#%id%").addClass("gcodeholderwide");
+    $("#%id%_widebutton").addClass("gcodeinvisible");
+    $("#%id%_narrowbutton").removeClass("gcodeinvisible");
+});
+$("#%id%_narrowbutton").click(function(event) {
+    $("#%id%").removeClass("gcodeholderwide");
+    $("#%id%_widebutton").removeClass("gcodeinvisible");
+    $("#%id%_narrowbutton").addClass("gcodeinvisible");
+});
+
+Template: Code
+output: html
 place: style
 div.gcodeholder {
     margin-top:         1cm;
     margin-bottom:      1cm;
+}
+div.gcodeholderwide {
+    width:              30cm;
+    margin-left:       -7cm;
+    border:             3px solid #aaa;
+    background-color:   white;
+    padding:            3px;
+}
+.gcodeinvisible {
+    display:            none;
 }
 div.gcodecaptionholder {
 }
@@ -27,13 +53,23 @@ div.gcodecaption {
     font-family:        helvetica, arial;
     font-style:         italic;
     font-size:          10pt;
-    margin-bottom:      -10px;
     color:              #666;
+    display:            inline;
 }
 div.gcodecontentholder {
     font-size:          10pt;
     font-family:        monospace, lucida console, courier new;
     margin-top:         0px;
+}
+span.gcodebutton {
+    cursor:             pointer;
+    float:              right;
+    font-family:        helvetica, arial;
+    font-size:          10pt;
+    color:              #666;
+}
+div>pre {
+    margin:             0px;
 }
 .highlight .hll { background-color: #ffffcc }
 .highlight  { background: #f8f8f8; }
@@ -97,5 +133,6 @@ div.gcodecontentholder {
 .highlight .vg { color: #19177C } /* Name.Variable.Global */
 .highlight .vi { color: #19177C } /* Name.Variable.Instance */
 .highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
+
 
 vim: set syntax=css ai;
