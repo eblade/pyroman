@@ -142,6 +142,7 @@ class Generic:
 
         self.body = self.body.replace('%content%', unicode(self.content))
         
+        G.debug(self.globalvars['$Labels'])
         self.body = varsub(self.body, 
                            [self.localvars,
                            self.arguments,
@@ -192,6 +193,12 @@ class Generic:
     def transform(self):
         G.info('Transforming...')
         self.from_array(self.lines)
+        return
+
+    ## @fn process_inline (override to use inline syntax sugars)
+    #
+    # @return No returns
+    def process_inline(self):
         return
 
     ## @fn dump

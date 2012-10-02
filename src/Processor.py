@@ -42,6 +42,9 @@ class Processor:
 
         # Templates
         self.globalvars['$Templates'] = {} 
+
+        # Labels
+        self.globalvars['$Labels'] = {} 
     
     ## @fn set_output
     #
@@ -209,7 +212,9 @@ class Processor:
                                 obj.lines.pop(0)
                                 obj.lines[:0] = sugar.result
                                 obj.transform() # reload object from new source
-            # Look for %Inlineobject things and add those at the end of the document
+            obj.process_inline()
+                        
+            # Look for %Inlineobject% things and add those at the end of the document
             # This must also create a hash $InlineObjects with the keys as hashes of
             # the inline call. Those hashes are later used for inline varsub
             # The proccess will be recursicve since the Inline objects are added last
@@ -240,6 +245,7 @@ class Processor:
                         obj.needs_rerun = True
                 obj.process()
                 if obj.needs_rerun:
+                    G.debug('Reputting object %s' % obj.__class__)
                     self.process_queue.append(obj)
         G.info('Finished queue processing.')
 
@@ -305,6 +311,7 @@ class Processor:
         self.process_objects_for_syntax_sugar()
         G.debug('\n'.join(['POST PROCESS_OBJECT_FOR_SYNTAX_SUGAR DUMP', self.get_objects_as_string()]))
         self.process_object_queue()
+        G.debug('\n'.join(['POST PROCESS_OBJECT_QUEUE DUMP', self.get_objects_as_string()]))
         self.perform_wrapping()
     
     ## @fn get_text

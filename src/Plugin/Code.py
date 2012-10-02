@@ -31,6 +31,8 @@ class Code(Generic):
        self.arguments['caption'] = getkey(self.arguments, 'caption', u'')
        self.arguments['linenumbers'] = getkey(self.arguments, 'linenumbers', u'no')
 
+       self.localvars['id'] = 'code%i' % G.getid()
+
        if have_pygment:
            if getkey(self.arguments, 'language', u'') == u'':
                lexer = guess_lexer(self.content)
@@ -47,7 +49,6 @@ class Code(Generic):
            formatter = HtmlFormatter(linenos=linenumbers)
 
            self.localvars['code'] = unicode(highlight(unicode(self.content), lexer, formatter))
-           #self.style = formatter.get_style_defs('.highlight')
        else:
            G.debug('No highlighting done')
            self.localvars['code'] = u'\n'.join(['<pre>',unicode(self.content),'</pre>'])

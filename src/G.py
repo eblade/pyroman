@@ -4,6 +4,8 @@ import os
 import sys
 import io
 
+sys.path.append('Plugin')
+
 DEBUG = 10
 INFO = 20
 WARNING = 30
@@ -21,13 +23,13 @@ levels = {
 loglevel = DEBUG
 
 # Ensure there is a logging directory
-if not os.path.isdir(os.getenv('HOME')+'/.gnarp'):
+if not os.path.isdir(os.getenv('HOME')+'/.pyroman'):
     os.mkdir(os.getenv('HOME')+'/.gnarp')
-if not os.path.isdir(os.getenv('HOME')+'/.gnarp/logs'):
+if not os.path.isdir(os.getenv('HOME')+'/.pyroman/logs'):
     os.mkdir(os.getenv('HOME')+'/.gnarp/logs')
 
-template_dir = ''.join([os.getenv('HOME'),'/.gnarp/templates/'])
-log_dir = ''.join([os.getenv('HOME'),'/.gnarp/logs/'])
+template_dir = ''.join([os.getenv('HOME'),'/.pyroman/templates/'])
+log_dir = ''.join([os.getenv('HOME'),'/.pyroman/logs/'])
 
 logfile = io.open(log_dir+'/gnarp.log','w')
 
@@ -39,6 +41,11 @@ def getid():
     getid.id += 1
     return getid.id
 getid.id = 0
+
+def getSafeLinkId():
+    getSafeLinkId.id += 1
+    return getSafeLinkId.id
+getSafeLinkId.id = 0
 
 def log(frame, level, message):
     caller = unicode(frame.f_back.f_globals['__name__'])

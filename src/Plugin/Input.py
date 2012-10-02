@@ -26,8 +26,8 @@ class Input(Generic):
         p = None
         if os.path.isfile(getkey(self.globalvars,'root')+filename):
             p = Processor.Processor(getkey(self.globalvars,'root'), filename, _is_main_file=False)
-        if os.path.isfile(getkey(self.globalvars,'root')+'conf/'+filename):
-            p = Processor.Processor(getkey(self.globalvars,'root')+'conf/', filename, _is_main_file=False)
+        if os.path.isfile(getkey(self.globalvars,'root')+'templates/'+filename):
+            p = Processor.Processor(getkey(self.globalvars,'root')+'templates/', filename, _is_main_file=False)
         elif os.path.isfile(getkey(self.globalvars,'templatedir')+filename):
             p = Processor.Processor(getkey(self.globalvars,'templatedir'), filename, _is_main_file=False)
         elif os.path.isfile(G.template_dir+filename):

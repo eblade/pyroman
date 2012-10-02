@@ -43,6 +43,13 @@ class Heading(Generic):
         if (int(self.localvars['level']) <= 
             int(getkey(self.globalvars, 'toc_depth', 3))):
             self.globalvars['$TOC'].append(tocitem)
+        
+        if u'label' in self.arguments:
+            G.debug(u'Added label %s => %s:%s' % (self.arguments['label'], self.localvars['safe_title'], getkey(self.localvars,'title','title missing')))
+            self.globalvars['$Labels'][self.arguments[u'label']] = {
+                'id':  self.localvars['safe_title'],
+                'caption': getkey(self.localvars,'title','title missing'),
+            }
 
         return True
 

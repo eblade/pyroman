@@ -93,6 +93,7 @@ def varsub(_text, _dicts, _templates, recursive=True):
     re_counter =   '(\!\!(\w+?)\!\!)'
     re_translate =   '(__(\w+?)__)'
     re_inline = '(%([A-Za-z0-9]+?):(\w+?)%)'
+    re_link = '(\[\[([^\]]+?)\]\])'
 
     # Foundness tracker
     found = False
@@ -173,6 +174,47 @@ def varsub(_text, _dicts, _templates, recursive=True):
             counter = getkey(counters, m[1], False)
         if counter:
             _text = _text.replace(m[0], counter_get(counter))
+
+    # Links [[link]]
+    m_var = re.findall(re_link, _text)
+    for m in  m_var:
+        G.debug(u'Link expression: '+m[0])
+        value = ''
+        v = False
+        parts = m[1].split(' ', 1)
+        if len(parts) == 1:
+            target = parts[0]
+            caption = parts[0]
+        else:   
+            target = parts[0]
+            caption = parts[1]
+        G.debug(u'Link target/caption: %s/%s' % (target, caption))
+        source = False
+        if target[0] == '#':
+            source = '$Labels'
+        elif target[0] == '!':
+            source = '$References'
+        else:
+            v = '<a href="%s">%s</a>' % (target, caption)
+            G.debug(u'Link is external %s' % v)
+            value = v
+            found = found or v
+        if source:
+            target = target[1:]
+            for d in _dicts:
+                if source in d:
+                    label = getkey(d['$Labels'], target, False)
+                    if label:
+                        v = '<a href="#%s">%s</a>' % (getkey(label, 'id', ''), getkey(label, 'caption', caption))
+                        G.debug(u'Link is internal %s' % v)
+                if v:
+                    value = v
+                    found = found or v
+                    break
+        if v:
+            G.debug(u'Varsub link variable value: '+unicode(value))
+            _text = _text.replace(m[0], unicode(value))
+
     # Tail recursive substitution
     if found:
         return varsub(_text, _dicts, _templates)

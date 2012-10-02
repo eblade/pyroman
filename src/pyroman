@@ -6,8 +6,8 @@ import io
 
 import G
 
-from GnarpUtils import getkey
-from GnarpProcessor import Processor
+from Utils import getkey
+from Processor import Processor
 
 if len(sys.argv) < 1:
     error("No filename specified")
