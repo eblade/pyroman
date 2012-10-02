@@ -203,7 +203,7 @@ def varsub(_text, _dicts, _templates, recursive=True):
             target = target[1:]
             for d in _dicts:
                 if source in d:
-                    label = getkey(d['$Labels'], target, False)
+                    label = getkey(d[source], target, False)
                     if label:
                         v = '<a href="#%s">%s</a>' % (getkey(label, 'id', ''), getkey(label, 'caption', caption))
                         G.debug(u'Link is internal %s' % v)
