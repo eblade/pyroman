@@ -315,8 +315,9 @@ NormalizeCss:
 
 == Paragraph ==
 
-A paragraph is the most basic element in a document. Therefore, this is considered to be the default object. If there is no object notation, the processor will
-assume it is a paragraph, very much like the TeX processor does.
+A paragraph is the most basic element in a document. Therefore, this is
+considered to be the default object. If there is no object notation, the
+processor will assume it is a paragraph, very much like the TeX processor does.
 
 However, if you would like to do anything special like setting an argument for
 the Paragraph object, you will have to use the standard notation. At the moment
@@ -405,6 +406,7 @@ Variable:      %variable%
 List:          %$list using Template%
 Counter:       !!counter!!
 Translation:   __translation__
+Link:          [[target Title]]
 Inline object: %Object[primary;argument1:value1;argument2:value2]:contents%
 
 Each of those deserve a fair bit of explanation:
@@ -465,6 +467,32 @@ substitute: no
 The [language] here is really the global variable language which can be set
 using Set. You can then easily use the Translate object to create dictionaries
 for internationalization.
+
+=== Link ===
+
+Links are a bit wiki-like. They take one or two arguments, a target, and a
+Title. The latter one is optional and will be filled in automatically.
+
+==== Internal links ====
+
+Internal links are prefixed with a #. You will need to define a label on your
+object. 
+
+Code:
+= This is a heading =
+label: this
+ 
+Visit this link: [[#this]]
+
+The title of this link will automatically be the title of the heading.
+
+==== External links ====
+
+External links are not prefixed with anything, just use the adress, relative
+or absolute as the target.
+
+Code:
+Visit this link [[http://www.google.com Google]].
 
 === Inline Object ===
 
