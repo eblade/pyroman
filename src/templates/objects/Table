@@ -1,0 +1,63 @@
+Use: Table
+
+Template: Table
+output: html
+place: body
+<div class="gtable">
+    <div class="gtablecaptionholder">
+        <div class="gtablecaption">
+            <a class="gheading" name="%safe_title%">
+                <span class="gtablenumber">%numberingtable%</span>
+            </a>
+            %caption%
+        </div>
+    </div>
+    <table class="gtable">
+        <thead>
+            <tr>
+                %$Headers using TableHeader%
+            </tr>
+        </thead>
+        <tbody>
+                %$Rows using TableRow%
+        </tbody>
+    </table>
+</div>
+
+Template: TableHeader
+output: html
+place: body
+                <th>%text%</th>
+
+Template: TableRow
+output: html
+place: body
+            <tr>%$Cells using TableCell%</tr>
+
+Template: TableCell
+output: html
+place: body
+                <td>%text%</td>
+
+Template: Figure
+output: html
+place: style
+div.gtable {
+    margin-top:         1cm;
+    margin-bottom:      1cm;
+}
+div.gtablecaptionholder {
+}
+div.gtablecaption {
+    font-family:        helvetica, arial;
+    font-style:         italic;
+    font-size:          10pt;
+    margin-bottom:      0px;
+    color:              #666;
+}
+
+Set:
+_table: Table
+
+
+vim: set syntax=css ai;

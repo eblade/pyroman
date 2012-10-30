@@ -19,31 +19,12 @@ class Figure(Generic):
         filename = getkey(self.arguments, 'file')
         if not getkey(self.arguments, 'mode'):
             self.arguments['mode'] = getkey(self.globalvars['$Figure'], 'mode',u'')
+        if not filename:
+            mode = 'inline'
+        else:
+            mode = 'normal'
         self.arguments['caption'] = getkey(self.arguments, 'caption', u'')
         self.localvars['title'] = getkey(self.arguments, 'caption', 'Untitled')
-
-        # Caching
-        # TODO This caching should be stored in css instead as well
-        if not filename in getkey(self.globalvars,'$Base64Data',{}):
-            f = open(filename, 'r') # FIXME: TRY
-            indata = f.read()
-            data = base64.b64encode(indata)
-            self.globalvars['$Base64Data'][filename] = data
-
-        self.localvars['data'] = self.globalvars['$Base64Data'][filename]
-        parts = filename.split('.')
-        extension = parts[-1].lower()
-        if extension == 'png':
-            self.localvars['format'] = 'png'
-        elif extension == 'jpg' or extension == 'jpeg':
-            self.localvars['format'] = 'jpeg'
-        elif extension == 'gif':
-            self.localvars['format'] = 'gif'
-        elif extension == 'svg':
-            self.localvars['format'] = 'svg'
-        else:
-            G.warn('Unknown image format: '+extension)
-            self.localvars['format'] = extension 
 
         # Store title to TOC
         self.localvars['safe_title'] = 'figure_'+safe_link(
@@ -60,6 +41,47 @@ class Figure(Generic):
 
         self.globalvars['$TOF'].append(tocitem)
 
+        parts = filename.split('.')
+        extension = parts[-1].lower()
+        if self.arguments.get('format', False):
+            self.localvars['format'] = self.arguments.get('format') 
+        elif extension == 'png':
+            self.localvars['format'] = 'image/png;base64'
+        elif extension == 'jpg' or extension == 'jpeg':
+            self.localvars['format'] = 'image/jpeg;base64'
+        elif extension == 'gif':
+            self.localvars['format'] = 'image/gif;base64'
+        elif extension == 'svg':
+            self.localvars['format'] = 'image/svg+xml;base64'
+        else:
+            G.warn('Unknown image format: '+extension)
+            self.localvars['format'] = extension 
+
+        indata = ''
+        if not filename in getkey(self.globalvars,'$Base64Data',{}):
+            # Caching
+            # TODO This caching should be stored in css instead as well
+            if mode == 'normal':
+                try:
+                    f = open(filename, 'r')
+                    indata = f.read()
+                except IOError:
+                    G.error(''.join(['The image file "',filename,'" could not be opened.']))
+            elif mode == 'inline':
+                filename = self.localvars.get('safe_title')
+                if not filename in getkey(self.globalvars,'$Base64Data',{}):
+                    indata = self.content 
+            if 'base64' in self.localvars.get('format'):
+                data = base64.b64encode(indata)
+            else:
+                data = ''.join([s for s in indata.splitlines() if s])
+            self.globalvars['$Base64Data'][filename] = data
+
+        self.localvars['data'] = self.globalvars['$Base64Data'][filename]
+
+        if not 'width' in self.arguments:
+            self.localvars['width'] = self.globalvars['$Figure']['width']
+
 
     def setup(self):
         if '$Figure' in self.globalvars:
@@ -69,6 +91,7 @@ class Figure(Generic):
         # Set defaults
         self.globalvars['$Figure'] = {
                 'mode': 'base64',
+                'width': '100%',
                 }
         self.globalvars['$Base64Data'] = {}
         # Init TOF list

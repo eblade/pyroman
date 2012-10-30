@@ -4,7 +4,7 @@ Template: Figure
 output: html
 place: body
 <div class="gfigure">
-    <img src="data:image/%format%;base64,%data%" width="100%" class="gfigure" />
+    <img src="data:%format%,%data%" width="%width%" class="gfigure" />
     <div class="gfigurecaptionholder">
         <div class="gfigurecaption">
             <a class="gheading" name="%safe_title%">

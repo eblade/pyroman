@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 import sys
-import logging
 import io
 
 import G
@@ -9,7 +8,7 @@ import G
 from Utils import getkey
 from Processor import Processor
 
-if len(sys.argv) < 1:
+if len(sys.argv) < 2:
     error("No filename specified")
     exit(1)
 

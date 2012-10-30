@@ -155,7 +155,7 @@ def varsub(_text, _dicts, _templates, recursive=True):
         result = u''
         for item in itemlist:
             G.debug('Varsub list processing item: '+
-                          getkey(item, 'item', '[itemcaptionnotfound]'))
+                          getkey(item, 'caption', '[item caption not found!!!]'))
             result = u'\n'.join([result, varsub(template, [item]+_dicts, _templates)])
         _text = _text.replace(m[0], result)
     

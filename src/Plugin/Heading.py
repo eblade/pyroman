@@ -24,7 +24,14 @@ class Heading(Generic):
         G.debug(''.join(['Title set to ',self.localvars['title']]))
         
         # Store title to TOC
-        self.localvars['safe_title'] = safe_link(
+        if u'label' in self.arguments:
+            self.localvars['safe_title'] = self.arguments[u'label']
+            self.globalvars['$Labels'][self.arguments[u'label']] = {
+                'id':  self.localvars['safe_title'],
+                'caption': getkey(self.localvars,'title','title missing'),
+            }
+        else:
+            self.localvars['safe_title'] = safe_link(
                 getkey(self.localvars,'title','title missing'))
         counter_tick(self.globalvars['$Counters'],
                      ''.join(['toc',str(self.localvars['level'])]))
@@ -44,12 +51,6 @@ class Heading(Generic):
             int(getkey(self.globalvars, 'toc_depth', 3))):
             self.globalvars['$TOC'].append(tocitem)
         
-        if u'label' in self.arguments:
-            G.debug(u'Added label %s => %s:%s' % (self.arguments['label'], self.localvars['safe_title'], getkey(self.localvars,'title','title missing')))
-            self.globalvars['$Labels'][self.arguments[u'label']] = {
-                'id':  self.localvars['safe_title'],
-                'caption': getkey(self.localvars,'title','title missing'),
-            }
 
         return True
 

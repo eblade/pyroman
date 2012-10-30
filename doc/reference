@@ -502,6 +502,23 @@ text. The syntax suggested here is rather complicated but never really
 intended for use. Instead, it is recommended to define Syntax Sugars for
 specific objects that supports inlining.
 
+== Table ==
+
+Code: text
+caption: A simple table
+-
+Table:
+caption: The Caption of the Table
+header: 1
+Header A  Header B  Header C  Header D
+Cell 1A   Cell 1B   Cell 1C   Cell 1D
+Cell 2A   Cell 2B   Cell 2C   Cell 2D
+Cell 3A   Cell 3B   Cell 3C   Cell 3D
+Cell 4A   Cell 4B   Cell 4C   Cell 4D
+
+If something more extensive than small strings is required, the use of variables
+is strongly encouraged.
+
 == Title ==
 
 The title object is pretty much an imitation of the LaTeX command \title. It
