@@ -24,14 +24,14 @@ loglevel = DEBUG
 
 # Ensure there is a logging directory
 if not os.path.isdir(os.getenv('HOME')+'/.pyroman'):
-    os.mkdir(os.getenv('HOME')+'/.gnarp')
+    os.mkdir(os.getenv('HOME')+'/.pyroman')
 if not os.path.isdir(os.getenv('HOME')+'/.pyroman/logs'):
-    os.mkdir(os.getenv('HOME')+'/.gnarp/logs')
+    os.mkdir(os.getenv('HOME')+'/.pyroman/logs')
 
 template_dir = ''.join([os.getenv('HOME'),'/.pyroman/templates/'])
 log_dir = ''.join([os.getenv('HOME'),'/.pyroman/logs/'])
 
-logfile = io.open(log_dir+'/gnarp.log','w')
+logfile = io.open(log_dir+'/pyroman.log','w')
 
 # Set standard start lines (for standard setup of documents)
 first_lines = {}
