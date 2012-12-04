@@ -13,7 +13,7 @@ place: body
 Template: TOCItem
 output: html
 place: body
-    <a class="gtocitem" href="#%safe_title%">
+    <a class="gtocitem" href="%link%">
         <div class="gtocitem">
             <p class="gtocitem gtocitem%level%">
                 %numbering% %title%

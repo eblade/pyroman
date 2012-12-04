@@ -210,6 +210,51 @@ caption: Syntax for HtmlWrapper
 -
 HtmlWrapper:
 
+== Index ==
+
+The index is an object that indexes all other documents in the same folder, useful
+for making a larger document collection. The documents' TOCs will be merged into
+a common TOC which can be printed. Links will be external.
+
+Code: 
+caption: Syntax for Index
+-
+Index:
+startwith: file1,...,filen
+exclude: file1,...,filen
+
+The <code>startswith</code> parameter may help you order the files. The rest will be
+added afterwards alphabetically on filename. The <code>exclude</code> parameter
+lets you ignore certain files you don't want to index.
+
+There are two useful bonus features. The first is that you may specify both a normal
+TOC and an alternate TOC, with different depths. Make sure to call the Index object
+after setting up the TOCs.
+
+The other one is that comments and objects whos contents starts with "TODO" are indexed
+and can be printed using the Remarks object. It will tell you of all the comments and
+where they are, in which file and on what line number. 
+
+The full example would be:
+
+Code: text
+-
+My index file
+ 
+TOC:
+caption: List of files
+depth: 1
+ 
+TOC: alt
+caption: Full index
+depth: 7
+ 
+Index:
+startwith: getting_started
+exclude: notes
+ 
+Remarks:
+
 == Inline ==
 
 <i>Not yet supported.</i>

@@ -12,12 +12,11 @@ class Title(Generic):
 
     def pre_process(self):
         # Export variables
-        G.info('Exporting title page vars')
-        if ('title' in self.arguments.keys() or not 'title' in self.globalvars.keys()):
-            self.globalvars['title'] = getkey(self.arguments, 'title', 'Doc') 
-        if ('subtitle' in self.arguments.keys() or not 'subtitle' in self.globalvars.keys()):
-            self.globalvars['subtitle'] = getkey(self.arguments, 'subtitle')
-        if ('author' in self.arguments.keys() or not 'author' in self.globalvars.keys()):
-            self.globalvars['author'] = getkey(self.arguments, 'author')
-        if ('date' in self.arguments.keys() or not 'date' in self.globalvars.keys()):
-            self.globalvars['date'] = getkey(self.arguments, 'date', getkey(self.globalvars,'date',''))
+        if (u'title' in self.arguments.keys() or not u'title' in self.globalvars.keys()):
+            self.globalvars['title'] = getkey(self.arguments, u'title', 'Doc') 
+        if (u'subtitle' in self.arguments.keys() or not u'subtitle' in self.globalvars.keys()):
+            self.globalvars[u'subtitle'] = getkey(self.arguments, u'subtitle')
+        if (u'author' in self.arguments.keys() or not u'author' in self.globalvars.keys()):
+            self.globalvars[u'author'] = getkey(self.arguments, u'author')
+        if (u'date' in self.arguments.keys() or not u'date' in self.globalvars.keys()):
+            self.globalvars[u'date'] = getkey(self.arguments, u'date', getkey(self.globalvars,u'date',''))

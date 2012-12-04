@@ -86,7 +86,9 @@ def getkey(_dict, _key, _default=''):
 # @param _obj Generic obj to do varsub in
 # @param _dicts List of hashes, prioritised order
 # @param _templates Hash of loaded templates
-def varsub(_text, _dicts, _templates, recursive=True):
+# @param recursive Do try again to replace if replacement was made
+# @param last_chance Report errors if substitution fails
+def varsub(_text, _dicts, _templates, recursive=True, last_chance=False):
     # Regexps
     re_var =    '(%(\w+?)%)'
     re_list =   '(%(\$\w+?) using (\w+?)%)'
@@ -214,6 +216,8 @@ def varsub(_text, _dicts, _templates, recursive=True):
         if v:
             G.debug(u'Varsub link variable value: '+unicode(value))
             _text = _text.replace(m[0], unicode(value))
+        elif last_chance:
+            G.error(u'Link creation failed for %s, missing label?' % m[0])
 
     # Tail recursive substitution
     if found:

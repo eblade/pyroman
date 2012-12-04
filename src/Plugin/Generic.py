@@ -21,7 +21,7 @@ class Generic:
     # @param _is_first Set true if this is the first object in the document
     # 
     # @return Generic object
-    def __init__(self, _globalvars = {},_source=None, _is_first=False, _is_main_file=True):
+    def __init__(self, _globalvars = {},_source=None, _is_first=False, _is_main_file=True, _filepath='', _lineno=0):
         self.id = G.getid()
         self.object_name = 'None'
         self.arguments = {}
@@ -33,6 +33,8 @@ class Generic:
         self.globalvars = _globalvars 
         self.sub_objects = []
         self.lines = [] # store the source lines
+        self.filepath = _filepath
+        self.lineno = _lineno
 
         # Output stuff
         self.removed = False 
@@ -69,7 +71,7 @@ class Generic:
                     G.debug(''.join(['is_first=',str(self.is_first),', is_main_file=',str(self.is_main_file)]))
                     if self.is_first and self.is_main_file: # Special fallback for first object as title
                         self.object_name = 'Title'
-                        self.arguments['title'] = unicode(line)
+                        self.arguments[u'title'] = unicode(line)
                     else:
                         self.object_name = 'Paragraph' # fallback, but can also be SyntaxSugar
                         self.content = unicode(line)

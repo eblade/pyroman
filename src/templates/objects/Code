@@ -70,6 +70,7 @@ span.gcodebutton {
 }
 div>pre {
     margin:             0px;
+    font-size:		0.9em;
 }
 .highlight .hll { background-color: #ffffcc }
 .highlight  { background: #f8f8f8; }

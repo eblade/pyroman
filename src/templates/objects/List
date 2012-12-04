@@ -60,3 +60,8 @@ div.glistitem1snippet {
     background-color:   #f8f8f8;
     word-wrap:          break-word;
 }
+div.glistitemcaption>code {
+    font-size:      0.9em;
+    color:     #073;
+}
+

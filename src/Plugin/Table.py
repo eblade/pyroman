@@ -21,9 +21,9 @@ class Table(Generic):
             self.arguments['file'] = getkey(self.arguments, 'primary', u'') 
         filename = getkey(self.arguments, 'file')
         if not getkey(self.arguments, 'mode'):
-            self.arguments['mode'] = getkey(self.globalvars['$Table'], 'mode',u'')
+            self.arguments['mode'] = getkey(self.globalvars.get('$Table', {}), 'mode',u'')
         mode = self.arguments['mode']
-        self.localvars['headers'] = self.arguments.get('headers', False) or self.globalvars['$Table'].get('headers', 'yes')
+        self.localvars['headers'] = self.arguments.get('headers', False) or self.globalvars.get('$Table', {}).get('headers', 'yes')
 
         # Store title to TOT (Table of Tables)
         self.localvars['safe_title'] = 'table_'+safe_link(
@@ -31,6 +31,7 @@ class Table(Generic):
         counter_tick(self.globalvars['$Counters'], 'table')
                      
         tocitem = { 'safe_title': self.localvars['safe_title'],
+                    'link': '#%s' % self.localvars['safe_title'],
                     'title': getkey(self.localvars, 'title', 'Untitled'),
                     'level': 1,
                     'section': '!!toc1!!',

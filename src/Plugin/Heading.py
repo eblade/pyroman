@@ -36,6 +36,7 @@ class Heading(Generic):
         counter_tick(self.globalvars['$Counters'],
                      ''.join(['toc',str(self.localvars['level'])]))
         tocitem = { 'safe_title': self.localvars['safe_title'],
+                    'link': '#%s' % self.localvars['safe_title'],
                     'title': self.localvars['title'],
                     'level': self.localvars['level'],
                     'numbering': varsub(
@@ -50,6 +51,9 @@ class Heading(Generic):
         if (int(self.localvars['level']) <= 
             int(getkey(self.globalvars, 'toc_depth', 3))):
             self.globalvars['$TOC'].append(tocitem)
+        if (int(self.localvars['level']) <= 
+            int(getkey(self.globalvars, 'alt_toc_depth', 3))):
+            self.globalvars['$ALTTOC'].append(tocitem)
         
 
         return True
@@ -61,55 +65,56 @@ class Heading(Generic):
         G.info("Setting up Heading.")
         # Add SyntaxSugar
         # FIXME These could be more generalised
-        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('= ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@-]+?) =',
+        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('= ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@\",-]+?) =',
             ['title'], 
             'Heading: %title%\nlevel: 1'))
-        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('== ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@-]+?) ==',
+        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('== ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@\",-]+?) ==',
             ['title'], 
             'Heading: %title%\nlevel: 2'))
-        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('=== ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@-]+?) ===',
+        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('=== ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@\",-]+?) ===',
             ['title'], 
             'Heading: %title%\nlevel: 3'))
-        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('==== ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@-]+?) ====',
+        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('==== ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@\",-]+?) ====',
             ['title'], 
             'Heading: %title%\nlevel: 4'))
-        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('===== ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@-]+?) =====',
+        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('===== ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@\",-]+?) =====',
             ['title'], 
             'Heading: %title%\nlevel: 5'))
-        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('====== ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@-]+?) ======',
+        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('====== ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@\",-]+?) ======',
             ['title'], 
             'Heading: %title%\nlevel: 6'))
-        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('======= ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@-]+?) =======',
+        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('======= ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@\",-]+?) =======',
             ['title'], 
             'Heading: %title%\nlevel: 7'))
         # Add SyntaxSugar that applies to Jira
-        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('h1. ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@-]+)',
+        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('h1. ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@\",-]+)',
             ['title'], 
             'Heading: %title%\nlevel: 1'))
-        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('h2. ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@-]+)',
+        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('h2. ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@\",-]+)',
             ['title'], 
             'Heading: %title%\nlevel: 2'))
-        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('h3. ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@-]+)',
+        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('h3. ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@\",-]+)',
             ['title'], 
             'Heading: %title%\nlevel: 3'))
-        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('h4. ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@-]+)',
+        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('h4. ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@\",-]+)',
             ['title'], 
             'Heading: %title%\nlevel: 4'))
-        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('h5. ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@-]+)',
+        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('h5. ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@\",-]+)',
             ['title'], 
             'Heading: %title%\nlevel: 5'))
-        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('h6. ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@-]+)',
+        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('h6. ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@\",-]+)',
             ['title'], 
             'Heading: %title%\nlevel: 6'))
-        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('h7. ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@-]+)',
+        self.globalvars['$SyntaxSugar'].append(SyntaxSugarDefinition('h7. ([\s\w\.\^\$\*\+\?\{\}\[\]\\\\\|\(\)\/@\",-]+)',
             ['title'], 
             'Heading: %title%\nlevel: 7'))
         # Set defaults
         self.globalvars['$Heading'] = {
                 'level': '2',
                 }
-        # Init TOC list
+        # Init TOC lists
         self.globalvars['$TOC'] = []
+        self.globalvars['$ALTTOC'] = [] # alternate toc TOC: alt
         # Init counters
         if not getkey(self.globalvars, '$Counters', False):
             self.globalvars['$Counters'] = {}
@@ -127,3 +132,10 @@ class Heading(Generic):
         self.globalvars['numbering5'] = '!!toc1!!.!!toc2!!.!!toc3!!.!!toc4!!.!!toc5!!.'
         self.globalvars['numbering6'] = '.!!toc6!!.'
         self.globalvars['numbering7'] = '.!!toc6!!.!!toc7!!.'
+        self.globalvars['indexnumbering1'] = ''
+        self.globalvars['indexnumbering2'] = '!!toc2!!.'
+        self.globalvars['indexnumbering3'] = '!!toc2!!.!!toc3!!.'
+        self.globalvars['indexnumbering4'] = '!!toc2!!.!!toc3!!.!!toc4!!.'
+        self.globalvars['indexnumbering5'] = '!!toc2!!.!!toc3!!.!!toc4!!.!!toc5!!.'
+        self.globalvars['indexnumbering6'] = '.!!toc6!!.'
+        self.globalvars['indexnumbering7'] = '.!!toc6!!.!!toc7!!.'

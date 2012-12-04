@@ -32,6 +32,7 @@ class Figure(Generic):
         counter_tick(self.globalvars['$Counters'], 'figure')
                      
         tocitem = { 'safe_title': self.localvars['safe_title'],
+                    'link': '#%s' % self.localvars['safe_title'],
                     'title': getkey(self.localvars, 'title', 'Untitled'),
                     'level': 1,
                     'section': '!!toc1!!',

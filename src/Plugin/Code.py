@@ -30,9 +30,15 @@ class Code(Generic):
             self.arguments['language'] = getkey(self.arguments, 'primary', u'?') 
         self.arguments['caption'] = getkey(self.arguments, 'caption', u'')
         self.arguments['linenumbers'] = getkey(self.arguments, 'linenumbers', u'no')
+        self.arguments['highlight'] = getkey(self.arguments, 'highlight', '')
+        self.arguments['wrap'] = getkey(self.arguments, 'wrap', 'yes')
  
         self.localvars['id'] = 'code%i' % G.getid()
- 
+        
+        if not self.content:
+            G.warn("Empty Code object at %s +%d! Perhaps it starts with xxxx: Then add a - separator line before content." % (self.filepath, self.lineno))
+            return
+        
         if have_pygment:
             if getkey(self.arguments, 'language', u'') == u'':
                 lexer = guess_lexer(self.content)
@@ -40,13 +46,19 @@ class Code(Generic):
                 try:
                     lexer = get_lexer_by_name(getkey(self.arguments, 'language', 'text'))
                 except ClassNotFound:
-                    G.error(u''.join(['Cound not find class ',getkey(self.arguments, 'language', 'text')]))
+                    G.error('Cound not find class %s at %s +%d' % (getkey(self.arguments, 'language', 'text'), self.filepath, self.lineno))
                     lexer = get_lexer_by_name('text')
             G.debug(u''.join(['Lexer is ',str(lexer)]))
  
             linenumbers = True if self.arguments['linenumbers'] == 'yes' else False
+            wrap = True if self.arguments['wrap'] == 'yes' else False
+            highlight_lines = self.arguments['highlight'].split(',')
  
-            formatter = HtmlFormatter(linenos=linenumbers)
+            formatter = HtmlFormatter(
+                linenos = linenumbers,
+                nowrap = not wrap,
+                hl_lines = highlight_lines
+            )
  
             self.localvars['code'] = unicode(highlight(unicode(self.content), lexer, formatter))
         else:

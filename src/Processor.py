@@ -29,6 +29,7 @@ class Processor:
     def __init__(self, _root, _filename, _output='html', _is_main_file=True, _outputfile='noname'):
         self.root = _root
         self.filename = _filename
+        self.filepath = '' # calculated by get_line()
         self.is_main_file = _is_main_file
         self.output = _output
         self.globalvars = {'root': _root, 'output': _output, 'filename': _filename, 'outputfile': _outputfile} # A hash for storing document data while processing
@@ -36,6 +37,7 @@ class Processor:
         self.objects = [] # The sequence of objects that makes the document
         self.process_queue = [] # A list of objects that need to be processed again
         self.document = u'unproduced'
+        self.lineno = 0 # line number in file, incremented by get_line()
         
         # SyntaxSugar 
         self.globalvars['$SyntaxSugar'] = []
@@ -60,16 +62,17 @@ class Processor:
     #
     # @return True on success, False on failure
     def init_file(self):
-        self.first_lines = getkey(G.first_lines, self.output, [])
-        filepath = ''.join([self.root,self.filename])
-        G.info(''.join(['Trying to open file "',filepath,'".']))
+        self.first_lines = list(getkey(G.first_lines, self.output, [])) if self.is_main_file else []
+        self.filepath = ''.join([self.root,self.filename])
+        self.lineno = 0
+        G.info(''.join(['Trying to open file "',self.filepath,'".']))
         try:
-            self.file = io.open(filepath, 'r')
+            self.file = io.open(self.filepath, 'r')
         except IOError:
-            G.critical(''.join(['The file "',filepath,'" could not be opened.']))
+            G.critical(''.join(['The file "',self.filepath,'" could not be opened.']))
             return False
         else:
-            G.info(''.join(['The file "',filepath,'" was opened.']))
+            G.info(''.join(['The file "',self.filepath,'" was opened.']))
             return True
     
     ## @fn get_line 
@@ -87,6 +90,7 @@ class Processor:
             self.doing_first_lines = False
         try:
             line = self.file.readline()
+            self.lineno += 1
         except IOError:
             G.warning('IO Error: Could not read line.')
             return ''
@@ -115,6 +119,7 @@ class Processor:
         self.first_object = True # First object will be treated differently
         last_line = False # A flag for last line (eof) detection
         lines = [] # A object line buffer, cleared after each object stored
+        object_start_line = 0 # line number of object start
         while (True):
             next_line = self.get_line()
             # Detect last line before stripping away te \n
@@ -130,16 +135,21 @@ class Processor:
                     G.debug('Creating object.')
     
                     # Create a Generic Object that can later be upgraded
-                    obj = Plugin.Generic(self.globalvars, lines, self.first_object, self.is_main_file)
+                    obj = Plugin.Generic(self.globalvars, lines, self.first_object, 
+                        self.is_main_file, _filepath=self.filepath,
+                        _lineno=object_start_line)
     
                     # Prepare for next round and save the current object
                     lines = []
-                    self.first_object = False
+                    if not self.doing_first_lines:
+                        self.first_object = False
     
                     if not obj.removed:
                         self.objects.append(obj)
+
                 else:
                     G.debug('Skipping empty object.')
+                object_start_line = self.lineno + 1
             else:
                 lines.append(next_line)
                 #lines.append(next_line.strip())

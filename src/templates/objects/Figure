@@ -20,7 +20,7 @@ output: html
 place: style
 div.gfigure {
     margin-top:         1cm;
-    margin-bottom:      1cm;
+    margin-bottom:      2cm;
 }
 div.gfigurecaptionholder {
 }
@@ -28,7 +28,7 @@ div.gfigurecaption {
     font-family:        helvetica, arial;
     font-style:         italic;
     font-size:          10pt;
-    margin-bottom:      -10px;
+    margin-bottom:      1cm;
     color:              #666;
 }
 

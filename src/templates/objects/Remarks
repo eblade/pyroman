@@ -1,0 +1,45 @@
+Use: Remarks
+
+Template: Remarks
+output: html
+place: body
+<div class="gtocheading">Remarks</div>
+<div class="gremarksholder">
+    %$IndexedRemarks using Remark%
+</div>
+
+Template: Remark
+output: html
+place: body
+    <div class="gremark">
+        <div class="gremarkposition">%filename% +%linenumber% (%object_type%)</div>
+        <div class="gremarknote">%note%</div>
+    </div>
+
+Template: Remark
+output: html
+place: style
+div.gremarksholder {
+    margin-top:         10px;
+    margin-left:        1cm;
+}
+div.gremarkcaption {
+    margin-top: -1em;
+    margin-left: 15px;
+}
+div.gremarknote {
+    font-size:          11pt;
+    font-family:        "times new roman", serif;
+    margin-left:        0.5cm;
+    margin-top:         0cm;
+    background-color:   #ddd;
+    padding:            5px;
+}
+div.gremarkposition {
+    margin-left:        0cm;
+    margin-top:         .4cm;
+    font-family:        monospace, courier new, courier;
+    background-color:   #f8f8f8;
+    word-wrap:          break-word;
+    padding-bottom:     5px;
+}

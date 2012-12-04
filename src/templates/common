@@ -22,5 +22,9 @@ Input: objects/Translate
 
 Input: i18n/en
 
+Input: objects/Index
+
+Input: objects/Remarks
+
 Set: no-overwrite 
 author: Johan Egneblad

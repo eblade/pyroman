@@ -27,7 +27,7 @@ place: body
 Template: TableHeader
 output: html
 place: body
-                <th>%text%</th>
+                <th class="gtablecell">%text%</th>
 
 Template: TableRow
 output: html
@@ -37,14 +37,15 @@ place: body
 Template: TableCell
 output: html
 place: body
-                <td>%text%</td>
+                <td class="gtablecell">%text%</td>
 
-Template: Figure
+Template: Table
 output: html
 place: style
 div.gtable {
     margin-top:         1cm;
     margin-bottom:      1cm;
+    font-size: 		10pt;
 }
 div.gtablecaptionholder {
 }
@@ -54,6 +55,15 @@ div.gtablecaption {
     font-size:          10pt;
     margin-bottom:      0px;
     color:              #666;
+}
+th.gtablecell {
+    text-align:   left;
+}
+td.gtablecell {
+    vertical-align:     top;
+}
+td.gtablecell>code {
+    font-size:          0.8em;
 }
 
 Set:
