@@ -52,7 +52,14 @@ class Code(Generic):
  
             linenumbers = True if self.arguments['linenumbers'] == 'yes' else False
             wrap = True if self.arguments['wrap'] == 'yes' else False
-            highlight_lines = self.arguments['highlight'].split(',')
+            highlights = self.arguments['highlight'].split(',')
+            highlight_lines = []
+            for hl in highlights:
+                parts = hl.split('-')
+                if len(parts) == 2:
+                    highlight_lines += range(int(parts[0]), int(parts[1])+ 1)
+                elif hl:
+                    highlight_lines.append(int(hl))
  
             formatter = HtmlFormatter(
                 linenos = linenumbers,

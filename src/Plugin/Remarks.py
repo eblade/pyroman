@@ -8,4 +8,7 @@ class Remarks(Generic):
         self.init()
     
     def pre_process(self):
-        self.needs_rerun = not self.needs_rerun 
+        if self.globalvars.get('state', 'draft') == 'final':
+            self.removed = True
+        else:
+            self.needs_rerun = not self.needs_rerun 
