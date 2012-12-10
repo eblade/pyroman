@@ -2,23 +2,45 @@
 
 import sys
 import io
+from optparse import OptionParser
 
 import G
 
 from Utils import getkey
 from Processor import Processor
 
-if len(sys.argv) < 2:
-    error("No filename specified")
+usage = "usage: %prog [options] infile [outfile]"
+parser = OptionParser(usage=usage)
+parser.add_option('-f', '--format', dest="format", default='html',		 
+                  help='output format [default and only option is html]')
+parser.add_option('-a', '--author', dest="author", default=None,		 
+                  help='document author')
+parser.add_option('-d', '--output-dir', dest="output_dir", default='/tmp',
+                  help='output directory unless outfile is given [default is /tmp]')
+parser.add_option('-F', '--final', dest="final", default=False,		 
+                  action="store_true",
+                  help='render doc as final (no comments)')
+(options, args) = parser.parse_args()
+
+if len(args) < 1:
+    G.error("No filename specified")
     exit(1)
 
-filename = sys.argv[1] 
-outfile = sys.argv[2] if len(sys.argv) > 2 else ''.join(['/tmp/',filename,'.html'])
+filename = args[0] 
+outfile = args[1] if len(args) > 1 else ''.join([options.output_dir,'/', filename,'.html'])
 
 f = io.open(G.log_dir+'/objectdump','w')
 html = io.open(outfile, 'w')
 
-p = Processor('', filename, 'html', True, outfile)
+p = Processor('', filename, options.format, True, outfile)
+
+if options.final:
+    p.globalvars['state'] = 'final'
+else:
+    p.globalvars['state'] = 'draft'
+
+if options.author:
+    p.globalvars['author'] = options.author
 
 p.generate()
 
