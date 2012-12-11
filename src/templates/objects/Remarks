@@ -12,7 +12,7 @@ Template: Remark
 output: html
 place: body
     <div class="gremark">
-        <div class="gremarkposition">%filename% +%linenumber% (%object_type%)</div>
+        <div class="gremarkposition gremark%state%">%filename% +%linenumber% (%object_type%)</div>
         <div class="gremarknote">%note%</div>
     </div>
 
@@ -32,7 +32,7 @@ div.gremarknote {
     font-family:        "times new roman", serif;
     margin-left:        0.5cm;
     margin-top:         0cm;
-    background-color:   #ddd;
+    background-color:   #eee;
     padding:            5px;
 }
 div.gremarkposition {
@@ -41,5 +41,17 @@ div.gremarkposition {
     font-family:        monospace, courier new, courier;
     background-color:   #f8f8f8;
     word-wrap:          break-word;
+    padding-top:        3px;
     padding-bottom:     5px;
+    padding-left:       5px;
+    padding-right:      5px;
+}
+div.gremarkcritical {
+    background-color:   #f86;
+}
+div.gremarkwarning {
+    background-color:   #fc6;
+}
+div.gremarkok {
+    background-color:   #af6;
 }

@@ -58,6 +58,11 @@ class Index(Generic):
                         if obj.object_name == 'Title':
                             doctitle = obj.arguments.get(u'title', 'wtf')
                     if obj.object_name == 'Comment' or obj.content.startswith("\nTODO") or obj.content.startswith("TODO"):
+                        if not obj.arguments.get('state', False):
+                            if obj.object_name == 'Comment':
+                                obj.arguments['state'] = 'warning'
+                            else:
+                                obj.arguments['state'] = 'critical'
                         comment_objects.append(obj)
 
                 p.objects = needed_objects
@@ -72,6 +77,7 @@ class Index(Generic):
                         'linenumber': obj.lineno,
                         'object_type': obj.object_name,
                         'note': obj.content,
+                        'state': obj.arguments.get('state'),
                     })
 
                 # Add main TOC item

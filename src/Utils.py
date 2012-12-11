@@ -184,9 +184,11 @@ def varsub(_text, _dicts, _templates, recursive=True, last_chance=False):
         value = ''
         v = False
         parts = m[1].split(' ', 1)
+        emergency_caption = '[[missing caption]]'
         if len(parts) == 1:
             target = parts[0]
-            caption = parts[0]
+            caption = False 
+            emergency_caption = target
         else:   
             target = parts[0]
             caption = parts[1]
@@ -207,7 +209,7 @@ def varsub(_text, _dicts, _templates, recursive=True, last_chance=False):
                 if source in d:
                     label = getkey(d[source], target, False)
                     if label:
-                        v = '<a href="#%s">%s</a>' % (getkey(label, 'id', ''), getkey(label, 'caption', caption))
+                        v = '<a href="#%s">%s</a>' % (getkey(label, 'id', ''), caption or getkey(label, 'caption', emergency_caption))
                         G.debug(u'Link is internal %s' % v)
                 if v:
                     value = v
