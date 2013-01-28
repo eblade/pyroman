@@ -65,6 +65,10 @@ td.gtablecell {
 td.gtablecell>code {
     font-size:          0.8em;
 }
+.gtablecell>code {
+    font-size:      0.9em;
+    color:     #073;
+}
 
 Set:
 _table: Table
