@@ -13,7 +13,6 @@ class Index(Generic):
     def __init__(self):
         super(Index, self).__init__()
         self.init()
-        self.globalvars
     
     # An Index Object loads all other files in the given folder and extracts their
     # TOC and comments and adds that to the local TOC.
@@ -35,7 +34,7 @@ class Index(Generic):
         
         remarks = []
         for path in files:
-            if os.path.isfile(os.path.join( root_path, path)) and path not in exclude_string and not path.startswith('.'):
+            if os.path.isfile(os.path.join( root_path, path)) and path not in exclude_files and not path.startswith('.'):
                 G.info('Reading file %s' % path)
 
                 # Load file (locally on its own)
