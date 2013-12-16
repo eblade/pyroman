@@ -38,6 +38,9 @@ class Code(Generic):
         if not self.content:
             G.warn("Empty Code object at %s +%d! Perhaps it starts with xxxx: Then add a - separator line before content." % (self.filepath, self.lineno))
             return
+
+        # Clean empty lines
+        self.content = self.content.replace('\n \n', '\n\n')
         
         if have_pygment:
             if getkey(self.arguments, 'language', u'') == u'':
