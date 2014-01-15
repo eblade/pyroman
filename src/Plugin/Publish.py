@@ -28,5 +28,16 @@ class Publish(Generic):
                 G.info('Done doing scp')
             else:
                 G.error("You must specify a uri")
+
+            # Also backup source if "src" param is specified
+            src = getkey(self.globalvars, 'filename', False)
+            dst = getkey(self.arguments, 'backup', False)
+            if src and dst:
+                G.info(''.join(['Doing scp from ',src,' to ',dst,'.']))
+                call(['scp', src, dst])
+                G.info('Done doing scp')
+            else:
+                G.info("Skipping source copy, missing src param")
+
         else:
             G.error("Only scp is currently supported")
