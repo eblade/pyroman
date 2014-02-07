@@ -204,6 +204,7 @@ def varsub(_text, _dicts, _templates, recursive=True, last_chance=False):
             value = v
             found = found or v
         if source:
+            G.debug(u'Link %s has source: %s' % (target, source))
             target = target[1:]
             for d in _dicts:
                 if source in d:

@@ -25,10 +25,11 @@ class Figure(Generic):
             mode = 'normal'
         self.arguments['caption'] = getkey(self.arguments, 'caption', u'')
         self.localvars['title'] = getkey(self.arguments, 'caption', 'Untitled')
+        self.localvars['safe_title'] = getkey(self.arguments, 
+            'label', 'figure_'+safe_link(
+                getkey(self.localvars,'title','untitled')))
 
         # Store title to TOC
-        self.localvars['safe_title'] = 'figure_'+safe_link(
-                getkey(self.localvars,'title','untitled'))
         counter_tick(self.globalvars['$Counters'], 'figure')
                      
         tocitem = { 'safe_title': self.localvars['safe_title'],
