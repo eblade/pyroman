@@ -104,15 +104,16 @@ def varsub(_text, _dicts, _templates, recursive=True, last_chance=False):
     m_var = re.findall(re_var, _text)
     for m in  m_var:
         G.debug(u'Varsub variable: '+m[0])
-        value = ''
+        value = None
         for d in _dicts:
             v = getkey(d, m[1], False)
             if v:
                 value = v
                 found = found or v
                 break
-        G.debug(u'Varsub variable value: '+unicode(value))
-        _text = _text.replace(m[0], unicode(value))
+        if value is not None:
+            G.debug(u'Varsub variable value: '+unicode(value))
+            _text = _text.replace(m[0], unicode(value))
     
     if not recursive:
         return _text
