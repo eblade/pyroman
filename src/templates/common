@@ -28,3 +28,12 @@ Input: objects/Remarks
 
 Set: no-overwrite 
 author: Johan Egneblad
+
+Set:
+caption:
+format:
+style:
+bullet1: __bullet1__
+bullet2: __bullet2__
+bullet3: __bullet3__
+bullet4: __bullet4__
