@@ -240,3 +240,15 @@ class Generic:
                           l_style,
                           l_script,
                           ])
+
+    def to_dict(self):
+        return {
+            'object_id': self.id,
+            'object_name': self.object_name,
+            'removed': self.removed,
+            'arguments': self.arguments,
+            'localvars': self.localvars,
+            'content': self.content,
+            'is_first': self.is_first,
+            'class': self.__class__.__name__
+        }

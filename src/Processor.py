@@ -349,3 +349,24 @@ class Processor:
         for obj in self.objects:
             output = '\n'.join([output, '============================================',obj.dump()])
         return output
+
+    ## @fn get_objects_as_list
+    #
+    # Concatenates all objects' types and primaries and returns them as a serializable list of dicts
+    #
+    # @return list of dicts
+    def get_objects_as_list(self):
+        return [obj.to_dict() for obj in self.objects]
+
+    ## @fn to_dict
+    #
+    # Get top-level info about the document as a dict
+    #
+    # @return dict
+    def to_dict(self):
+        return {
+            'filename': self.filename,
+            'root': self.root,
+            'is_main_file': self.is_main_file,
+            'globalvars': {k: v for k, v in self.globalvars.items() if not k.startswith('$') and k not in ('body', 'script', 'style', 'prescript') or k == '$Labels'},
+        }

@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import os
 import sys
 import io
 from optparse import OptionParser
@@ -29,8 +30,13 @@ if len(args) < 1:
 filename = args[0] 
 outfile = args[1] if len(args) > 1 else ''.join([options.output_dir,'/', filename,'.html'])
 
-f = io.open(G.log_dir+'/objectdump','w')
-html = io.open(outfile, 'w')
+
+
+if options.format == 'json':
+    json_mode = True
+    options.format = 'html'
+else:
+    json_mode = False
 
 p = Processor('', filename, options.format, True, outfile)
 
@@ -46,11 +52,27 @@ p.generate()
 
 #print p.get_text()
 
-html.write(p.get_text())
-html.close()
+if not json_mode:
+    html = io.open(outfile, 'w')
+    html.write(p.get_text())
+    html.close()
+else:
+    import json
+    outfile = os.path.splitext(outfile)[0]
+    d = {
+        'filename': filename,
+        'outfile': outfile[:5],
+        'headers': p.to_dict(),
+        'objects': p.get_objects_as_list(),
+    }
+    outfile += '.json'
+    with open(outfile, 'w') as jsonfile:
+        json.dump(d, jsonfile, indent=2, sort_keys=True)
+    
 
 p.postprocess_objects()
 
+f = io.open(G.log_dir+'/objectdump','w')
 f.write(unicode(p.get_objects_as_string()))
 f.close()
 
