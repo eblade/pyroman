@@ -107,7 +107,7 @@ def varsub(_text, _dicts, _templates, recursive=True, last_chance=False):
         value = None
         for d in _dicts:
             v = getkey(d, m[1], False)
-            if v:
+            if v is not False:
                 value = v
                 found = found or v
                 break
@@ -129,7 +129,7 @@ def varsub(_text, _dicts, _templates, recursive=True, last_chance=False):
                 l = getkey(t, getkey(d, 'language', 'en'), False)
                 if l:
                     v = getkey(l, m[1], False)
-                    if v:
+                    if v is not False:
                         value = v
                         found = found or v
                         break
