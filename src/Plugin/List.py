@@ -2,7 +2,7 @@
 
 import re
 
-from Utils import getkey
+from Utils import getkey, pyroman2rst
 from Generic import Generic
 
 class List(Generic):
@@ -40,15 +40,24 @@ class List(Generic):
         self.localvars['bullet4'] = getkey(self.arguments, 'bullet4', '__bullet4__') 
 
         items = []
+        rst_links = []
         for line in self.content.split("\n"):
             re_def = '^(\*+) '
             m = re.match(re_def, line)
             if m:
                 level = len(m.group(1))
                 caption = unicode(line[level+1:].strip())
-                items.append({'level': level, 'caption': caption, 'bullet': bullet})
+                if level == 1 and getkey(self.arguments, 'format', '') == 'snippet':
+                    rst_caption = '``%s``' % caption
+                else:
+                    rst_caption = caption
+                rst, links = pyroman2rst(rst_caption, self.globalvars, bullet=level)
+                if links:
+                    rst_links.append(links)
+                items.append({'level': level, 'caption': caption, 'bullet': bullet, 'rst': rst})
             elif len(items): # broken lines should be appended to the last added item
                 items[len(items)-1]['caption'] = ''.join([items[len(items)-1]['caption'], ' ', line.strip()])
         self.localvars['$Items'] = items 
+        self.localvars['rst_links'] = '\n\n'.join(rst_links)
 
         self.needs_rerun = not self.needs_rerun 

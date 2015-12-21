@@ -36,6 +36,7 @@ logfile = io.open(log_dir+'/pyroman.log','w')
 # Set standard start lines (for standard setup of documents)
 first_lines = {}
 first_lines['html'] = [u'Input: common\n',u'\n',u'Input: html\n',u'\n']
+first_lines['rst'] = [u'Input: common\n',u'\n',u'Input: rst\n',u'\n']
 first_lines['no'] = [u'Input: common\n', u'\n' ]
 
 def getid():

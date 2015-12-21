@@ -268,3 +268,48 @@ def counter_get(counter):
         return str(counter['value'])
     else:
         return 'no counter'
+
+
+re_link = re.compile('(\[\[([^\]]+?)\]\])')
+
+
+def pyroman2rst(content, globalvars, bullet=0):
+    content = (content.replace('\n', ' ')
+                      .replace('<code>', '``')
+                      .replace('</code>', '``')
+                      .replace('<b>', '**')
+                      .replace('</b>', '**')
+                      .replace('<i>', '*')
+                      .replace('</i>', '*')
+                      .replace('&gt;', '>')
+                      .replace('&lt;', '<')
+    )
+    links = {}
+    for m in re_link.findall(content):
+        value = ''
+        v = False
+        parts = m[1].split(' ', 1)
+        emergency_caption = 'link'
+        if len(parts) == 1:
+            target = parts[0]
+            caption = False
+            emergency_caption = target
+        else:
+            target = parts[0]
+            caption = parts[1]
+        source = False
+        if target[0] == '#':
+            source = '$Labels'
+        else:
+            links[u'.. _%s: %s' % (caption, target)] = True
+            value = '`%s`_' % caption
+        if source:
+            if source in globalvars:
+                label = globalvars[source].get(target[1:], {})
+                value = ":ref:`%s`" % label
+        if value:
+            content = content.replace(m[0], unicode(value))
+    if bullet:
+        content = '  '*(bullet-1) + '* ' + content
+    return content + u'\n', u'\n'.join(links.keys())
+

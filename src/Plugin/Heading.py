@@ -22,6 +22,11 @@ class Heading(Generic):
         if self.arguments.has_key('primary'):
             self.localvars['title'] = self.arguments['primary']
         G.debug(''.join(['Title set to ',self.localvars['title']]))
+
+        # Rst Underlinings
+        rst = "=-`'.~*+^"
+        self.localvars['rst_title'] = '%s\n%s' % (self.localvars['title'],
+            len(self.localvars['title'])*(rst[int(self.localvars['level'])-1]))
         
         # Store title to TOC
         if u'label' in self.arguments:

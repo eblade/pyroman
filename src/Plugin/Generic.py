@@ -139,6 +139,8 @@ class Generic:
     # of the object using the templates.
     def process(self):
         template_name = getkey(self.arguments, 'template', self.object_name)
+        if getkey(self.globalvars, 'output', 'html') == 'rst':
+            template_name = getkey(self.arguments, 'rsttemplate', template_name)
         template = getkey(self.globalvars['$Templates'], template_name)
         self.body = unicode(getkey(template, 'body'))
         self.pre_process()

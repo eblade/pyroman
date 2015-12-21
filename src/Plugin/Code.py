@@ -82,3 +82,5 @@ class Code(Generic):
                            self.globalvars],
                            getkey(self.globalvars, '$Templates', False),
                            recursive=getkey(self.arguments, 'substitute', 'yes') != 'no')
+        
+        self.localvars['rst_code'] = '\n'.join([('   '+l) for l in self.content.split('\n')])

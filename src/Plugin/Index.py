@@ -37,6 +37,16 @@ class Index(Generic):
             if os.path.isfile(os.path.join( root_path, path)) and path not in exclude_files and not path.startswith('.'):
                 G.info('Reading file %s' % path)
 
+                # In the rst case, let it handle its own indexing
+                if self.globalvars['output'] == 'rst':
+                    path = u'.'.join(os.path.split(path))
+                    if path.startswith('.'): 
+                        path = path[1:]
+                    self.globalvars['$TOC'].append(dict(path=path))
+                    self.globalvars['$ALTTOC'].append(dict(path=path))
+                    continue
+                    
+
                 # Load file (locally on its own)
                 p = Processor.Processor(getkey(self.globalvars,'root'), path, 'no', True, '%s.html' % path) # make them think they are main
                 #p = Processor('', filename, 'html', True, outfile)

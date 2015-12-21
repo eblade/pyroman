@@ -27,8 +27,15 @@ if len(args) < 1:
     G.error("No filename specified")
     exit(1)
 
+
+extension = {
+    'html': '.html',
+    'rst': '.rst',
+    'json': '.html',  # special case
+}
+
 filename = args[0] 
-outfile = args[1] if len(args) > 1 else ''.join([options.output_dir,'/', filename,'.html'])
+outfile = args[1] if len(args) > 1 else ''.join([options.output_dir,'/', filename, extension[options.format]])
 
 
 

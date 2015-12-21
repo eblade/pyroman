@@ -20,6 +20,8 @@ class TOC(Generic):
             self.localvars['caption'] = u'__table_of_tables__'
             self.localvars['tocname'] = 'ALTTOC'
             self.globalvars['alt_toc_depth'] = getkey(self.arguments, 'depth', 3)
+            if self.globalvars.get('output') == 'rst':
+                self.localvars['toc_depth'] = getkey(self.arguments, 'depth', 3)
         else:
             self.localvars['caption'] = u'__table_of_contents__'
             self.localvars['tocname'] = 'TOC';
@@ -27,6 +29,10 @@ class TOC(Generic):
         if self.arguments.get('caption',False):
             self.localvars['caption'] = self.arguments.get('caption',False);
         self.needs_rerun = not self.needs_rerun
+
+        self.localvars['rst_caption'] = '%s\n%s' % (self.localvars['caption'],
+            len(self.localvars['caption'])*'=')
+
         return True
 
     def setup(self):
