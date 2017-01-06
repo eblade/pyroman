@@ -3,15 +3,45 @@ author: Daniel Elenius
 
 = Example =
 
-This is some documentation written by a human.
-And the following is created by python.
+When a human is the author of a section
+
+Then the human will write text into the document
+
+When a python script writes a section
+
+Then the in document code block is executed and replaced with code output
+
+Exec: python
+-
+print "=> Run"
+
+When the python script inserts xml
+
+Then the xml will be shown in the document
 
 Exec: python
 -
 print """
 <xml>
-    <atom:link ref="self" href="http://host/yada/yada" />
+	<link href="http://server/something" />
 </xml>
 """
 
-The link, self, above is used to fetch a resource.
+This case is a bit dubious....
+
+When a python script outputs a table
+
+Then the table code rather than table will show up in the document
+
+Exec: python
+-
+print """
+Code: text
+caption: A simple table
+-
+Table:
+caption: The Caption of the Table
+header: 1
+Header A  Header B  Header C  Header D
+Cell 1A   Cell 1B   Cell 1C   Cell 1D
+"""
