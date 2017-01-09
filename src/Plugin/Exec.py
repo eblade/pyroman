@@ -22,17 +22,19 @@ except ImportError:
 else:
     have_pygment = True
     G.info("Loaded Pygment.")
-    
+
+
 def run(code):
-	oldStdout, sys.stdout = sys.stdout, StringIO()
-        try:
-            exec code
-            return sys.stdout.getvalue()
-        except Exception, e:
-            sys.stdout = oldStdout
-            print e
-        finally:
-            sys.stdout = oldStdout
+    oldStdout, sys.stdout = sys.stdout, StringIO()
+    try:
+        exec code
+        return sys.stdout.getvalue()
+    except Exception as error:
+        sys.stdout = oldStdout
+        return repr(error)
+    finally:
+        sys.stdout = oldStdout
+
 
 class Exec(Generic):
     def __init__(self):

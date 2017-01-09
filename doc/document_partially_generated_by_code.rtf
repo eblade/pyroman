@@ -13,7 +13,7 @@ Then the in document code block is executed and replaced with code output
 
 Exec: python
 -
-print "=> Run"
+print "This line contains text without the print, that was used to generate it"
 
 When the python script inserts xml
 
@@ -45,3 +45,62 @@ header: 1
 Header A  Header B  Header C  Header D
 Cell 1A   Cell 1B   Cell 1C   Cell 1D
 """
+
+= Dependencies =
+
+When python is executed
+then it is done from the Plugins folder
+
+Exec: python
+-
+import os
+path = os.path.basename(
+    os.path.dirname(
+        os.path.realpath(__file__)))
+assert path == "Plugin"
+print "Valid"
+
+When Exec plugin exists
+
+Exec: python
+-
+import Plugin.Exec
+print "Valid"
+
+and exec template exists
+
+Exec: python
+-
+import os
+plugin_path = os.path.basename(
+    os.path.dirname(
+        os.path.realpath(__file__)))
+open(
+    os.path.join(
+        plugin_path,
+        "..",
+        "templates",
+        "objects",
+        "Exec"))
+print "Valid"
+
+and Exec is listed in common plugins
+
+Exec: python
+-
+import os
+plugin_path = os.path.basename(
+    os.path.dirname(
+        os.path.realpath(__file__)))
+with open(
+    os.path.join(
+        plugin_path,
+        "..",
+        "templates",
+        "common"),
+    "r"
+    ) as common:
+        assert [line for line in list(common) if "Input: objects/Exec" in line]
+print "Valid"
+
+then a paragraph Exec: python is replaced by program output
